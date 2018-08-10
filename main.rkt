@@ -28,7 +28,7 @@
                                 value
                                 (cdr refs))))))
   (cond
-    ([> (length refs) 1]
+    ([>= (length refs) 1]
      (nested-hash-set* hash*
                        (last refs)
                        (cons ref (take refs (sub1 (length refs))))))
