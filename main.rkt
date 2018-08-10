@@ -53,6 +53,9 @@
   (test-equal? "nested set existing"
                (nested-hash-set (hash 'a (hash 'b 10)) 'a 'b 123)
                (hash 'a (hash 'b 123)))
+  (test-equal? "nested set shallow"
+               (nested-hash-set (hash 'a (hash 'b 10)) 'c 123)
+               (hash 'a (hash 'b 10) 'c 123))
   (test-exn    "nested set fail"
                (lambda _ #t)
                (lambda () (nested-hash-set (hash 'a 0) 'a 'b 123)))
