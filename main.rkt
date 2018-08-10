@@ -9,11 +9,13 @@
   (require rackunit))
 
 (define (nested-hash-ref hash #:default [default #f] ref . refs)
-  (if (null? refs)
-    (hash-ref hash ref default)
-    (apply nested-hash-ref
-           (hash-ref hash ref default)
-           #:default default refs)))
+  (if hash
+    (if (null? refs)
+      (hash-ref hash ref default)
+      (apply nested-hash-ref
+             (hash-ref hash ref default)
+             #:default default refs))
+    #f))
 
 (define (nested-hash-set hash* ref . refs)
   (define (nested-hash-set* hash* value refs)
@@ -38,6 +40,9 @@
                123)
   (test-equal? "nested access miss"
                (nested-hash-ref (hash 'a (hash 'b 123)) 'a 'c)
+               #f)
+  (test-equal? "nested access deep miss"
+               (nested-hash-ref (hash 'a (hash 'b 123)) 'a 'c 'd 'e 'f)
                #f)
   (test-exn    "nested access wrong"
                (lambda _ #t)
