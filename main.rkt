@@ -17,7 +17,7 @@
              #:default default refs))
     #f))
 
-(define (nested-hash-set hash* ref . refs)
+(define (nested-hash-set hash* #:hash [hash hash] ref . refs)
   (define (nested-hash-set* hash* value refs)
     (cond
       ([null? refs] value)
