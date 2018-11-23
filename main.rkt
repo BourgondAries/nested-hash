@@ -43,7 +43,8 @@
                             (nested-hash-set*
                               (hash-ref hash* (car refs) (hash))
                               (cdr refs)
-                              value)))))
+                              value
+                              #:hash hash)))))
 (module+ test
   (test-equal? "nested access"
                (nested-hash-ref (hash 'a (hash 'b 123)) 'a 'b)
@@ -63,6 +64,9 @@
   (test-equal? "nested set"
                (nested-hash-set (hash) 'a 'b 123)
                (hash 'a (hash 'b 123)))
+  (test-equal? "nested set table consistency"
+               (nested-hash-set (hasheq) #:hash hasheq 'a 'b 'c 123)
+               (hasheq 'a (hasheq 'b (hasheq 'c 123))))
   (test-equal? "nested set existing"
                (nested-hash-set (hash 'a (hash 'b 10)) 'a 'b 123)
                (hash 'a (hash 'b 123)))
